@@ -3,6 +3,8 @@ import CalendarElement from "../CalendarElement";
 import { GridList, Typography } from "@material-ui/core";
 import ImageList from "@material-ui/core/ImageList";
 import * as styles from "./style.css";
+// apiで使用
+import { useEffect } from "react";
 
 const days = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -12,8 +14,12 @@ const CalendarBoard = ({
   month,
   openAddScheduleDialog,
   openCurrentScheduleDialog,
+  fetchSchedule,
 }) => {
-  console.log(calendar);
+  useEffect(() => {
+    // 初回のみdataを取得する
+    fetchSchedule();
+  }, []);
   return (
     <div className={styles.container}>
       <ImageList className={styles.grid} cols={7} gap={0} rowHeight="auto">
