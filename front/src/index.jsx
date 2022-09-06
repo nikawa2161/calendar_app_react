@@ -16,12 +16,14 @@ dayjs.locale("ja");
 
 // Redux
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+// applyMiddlewareの追加
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 
 import rootReducer from "./redux/rootReducer";
 
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const App = () => (
   <Provider store={store}>

@@ -5,11 +5,17 @@ import { connect } from "react-redux";
 import { getNextMonth, getPreviousMonth, getMonth, formatMonth, } from "../../services/calendar";
 import { calendarSetMonth } from "../../redux/calendar/actions";
 
+// async
+import { asyncSchedulesFetchItem } from "../../redux/schedules/effects";
+
 const mapStateToProps = (state) => ({ calendar: state.calendar });
 
 const mapDispatchToProps = (dispatch) => ({
   setMonth: (month) => {
     dispatch(calendarSetMonth(month));
+  },
+  fetchItem: (month) => {
+    dispatch(asyncSchedulesFetchItem(month));
   },
 });
 
@@ -19,15 +25,21 @@ const mergeProps = (stateProps, dispatchProps) => ({
   setNextMonth: () => {
     const nextMonth = getNextMonth(stateProps.calendar);
     dispatchProps.setMonth(nextMonth);
+    // 取得
+    dispatchProps.fetchItem(nextMonth);
   },
   setPreviousMonth: () => {
     const previousMonth = getPreviousMonth(stateProps.calendar);
     dispatchProps.setMonth(previousMonth);
+    // 取得syutoku
+    dispatchProps.fetchItem(previousMonth);
   },
   setMonth: (dayObj) => {
     // dayjs → reduxのstate
     const month = formatMonth(dayObj);
     dispatchProps.setMonth(month);
+    // 取得
+    dispatchProps.fetchItem(month);
   },
 });
 
